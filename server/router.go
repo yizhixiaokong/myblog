@@ -40,13 +40,13 @@ func NewRouter() *gin.Engine {
 		//博客创建
 		v1.POST("blogs", api.CreateBlog)
 		//博客详情
-		//v1.GET("blog/:id", api.ShowBlog)
+		v1.GET("blog/:id", api.ShowBlog)
 		//博客列表
-		//v1.GET("blogs", api.ListBlog)
+		v1.GET("blogs", api.ListBlog)
 		//博客更新
-		//v1.PUT("blog/:id", api.UpdateBlog)
+		v1.PUT("blog/:id", api.UpdateBlog)
 		//博客删除
-		//v1.POST("blogs", api.DeleteeBlog)
+		v1.DELETE("blog/:id", api.DeleteBlog)
 	}
 	return r
 }
