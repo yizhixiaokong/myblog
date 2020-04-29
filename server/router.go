@@ -18,32 +18,35 @@ func NewRouter() *gin.Engine {
 	r.Use(middleware.CurrentUser())
 
 	// 路由
-	v1 := r.Group("/api/v1")
+
+	dispatchRouterLogin(r)
+	dispatchRouterBlog(r)
+	dispatchRouterTag(r)
+
+	return r
+}
+
+func dispatchRouterLogin(router *gin.Engine) {
+	groups := router.Group("/api/v1")
 	{
-		v1.POST("ping", api.Ping)
+		groups.POST("ping", api.Ping)
 
 		// 用户注册
-		v1.POST("user/register", api.UserRegister)
+		groups.POST("user/register", api.UserRegister)
 		// 用户登录
-		v1.POST("user/login", api.UserLogin)
+		groups.POST("user/login", api.UserLogin)
 		// 需要登录保护的
-		auth := v1.Group("")
+		auth := groups.Group("")
 		auth.Use(middleware.AuthRequired())
 		{
 			// User Routing
 			auth.GET("user/me", api.UserMe)
 			auth.DELETE("user/logout", api.UserLogout)
 		}
-
-		dispatchRouterBlog(r)
-		dispatchRouterTag(r)
-
 	}
-	return r
 }
-
 func dispatchRouterBlog(router *gin.Engine) {
-	groups := router.Group("")
+	groups := router.Group("/api/v1")
 	{
 		//博客创建
 		groups.POST("blogs", api.CreateBlog)
@@ -59,7 +62,7 @@ func dispatchRouterBlog(router *gin.Engine) {
 }
 
 func dispatchRouterTag(router *gin.Engine) {
-	groups := router.Group("")
+	groups := router.Group("/api/v1")
 	{
 		//添加标签
 		groups.POST("tags", api.CreateTag)
