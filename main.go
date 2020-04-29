@@ -1,8 +1,8 @@
 package main
 
 import (
-	"singo/conf"
-	"singo/server"
+	"myblog/conf"
+	"myblog/server"
 )
 
 func main() {

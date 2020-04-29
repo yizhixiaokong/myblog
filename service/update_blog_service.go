@@ -1,8 +1,8 @@
 package service
 
 import (
-	"singo/model"
-	"singo/serializer"
+	"myblog/model"
+	"myblog/serializer"
 )
 
 // UpdateBlogService 更新博客服务

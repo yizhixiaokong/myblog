@@ -1,10 +1,10 @@
 package conf
 
 import (
+	"myblog/cache"
+	"myblog/model"
+	"myblog/util"
 	"os"
-	"singo/cache"
-	"singo/model"
-	"singo/util"
 
 	"github.com/joho/godotenv"
 )

@@ -1,8 +1,8 @@
 package service
 
 import (
-	"singo/model"
-	"singo/serializer"
+	"myblog/model"
+	"myblog/serializer"
 )
 
 // DeleteBlogService 删除博客服务

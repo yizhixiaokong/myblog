@@ -1,6 +1,6 @@
 package serializer
 
-import "singo/model"
+import "myblog/model"
 
 // Blog 博客序列化器
 type Blog struct {

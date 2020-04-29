@@ -1,9 +1,9 @@
 package server
 
 import (
+	"myblog/api"
+	"myblog/middleware"
 	"os"
-	"singo/api"
-	"singo/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -24,10 +24,8 @@ func NewRouter() *gin.Engine {
 
 		// 用户注册
 		v1.POST("user/register", api.UserRegister)
-
 		// 用户登录
 		v1.POST("user/login", api.UserLogin)
-
 		// 需要登录保护的
 		auth := v1.Group("")
 		auth.Use(middleware.AuthRequired())
@@ -37,16 +35,41 @@ func NewRouter() *gin.Engine {
 			auth.DELETE("user/logout", api.UserLogout)
 		}
 
-		//博客创建
-		v1.POST("blogs", api.CreateBlog)
-		//博客详情
-		v1.GET("blog/:id", api.ShowBlog)
-		//博客列表
-		v1.GET("blogs", api.ListBlog)
-		//博客更新
-		v1.PUT("blog/:id", api.UpdateBlog)
-		//博客删除
-		v1.DELETE("blog/:id", api.DeleteBlog)
+		dispatchRouterBlog(r)
+		dispatchRouterTag(r)
+
 	}
 	return r
+}
+
+func dispatchRouterBlog(router *gin.Engine) {
+	groups := router.Group("")
+	{
+		//博客创建
+		groups.POST("blogs", api.CreateBlog)
+		//博客详情
+		groups.GET("blog/:id", api.ShowBlog)
+		//博客列表
+		groups.GET("blogs", api.ListBlog)
+		//博客更新
+		groups.PUT("blog/:id", api.UpdateBlog)
+		//博客删除
+		groups.DELETE("blog/:id", api.DeleteBlog)
+	}
+}
+
+func dispatchRouterTag(router *gin.Engine) {
+	groups := router.Group("")
+	{
+		//添加标签
+		groups.POST("tags", api.CreateTag)
+		//获取标签
+		groups.GET("tag/:id", api.ShowTag)
+		//标签列表
+		groups.GET("tags", api.ListTag)
+		//修改标签
+		groups.PUT("tag/:id", api.UpdateTag)
+		//删除标签
+		groups.DELETE("tag/:id", api.DeleteTag)
+	}
 }
