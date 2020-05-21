@@ -13,7 +13,7 @@ type ListBlogService struct {
 func (service *ListBlogService) List() serializer.Response {
 	var blogs []model.Blog
 
-	if err := model.DB.Find(&blogs).Error; err != nil {
+	if err := model.DB.Order("id desc").Limit(10).Find(&blogs).Error; err != nil {
 		return serializer.ParamErr("数据库连接错误", err)
 	}
 	return serializer.BuildBlogsResponse(blogs)

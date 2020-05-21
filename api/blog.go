@@ -10,7 +10,8 @@ import (
 func CreateBlog(c *gin.Context) {
 	var service service.CreateBlogService
 	if err := c.ShouldBind(&service); err == nil {
-		res := service.Create()
+		user := CurrentUser(c)
+		res := service.Create(user)
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
@@ -29,6 +30,18 @@ func ListBlog(c *gin.Context) {
 	var service service.ListBlogService
 	if err := c.ShouldBind(&service); err == nil {
 		res := service.List()
+		c.JSON(200, res)
+	} else {
+		c.JSON(200, ErrorResponse(err))
+	}
+}
+
+// ListUserBlog 当前用户博客列表接口
+func ListUserBlog(c *gin.Context) {
+	var service service.ListUserBlogService
+	if err := c.ShouldBind(&service); err == nil {
+		user := CurrentUser(c)
+		res := service.List(user)
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))

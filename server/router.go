@@ -41,6 +41,7 @@ func dispatchRouterLogin(router *gin.Engine) {
 		{
 			// User Routing
 			auth.GET("user/me", api.UserMe)
+			// auth.PUT("user/:id", api.UpdateUser)
 			auth.DELETE("user/logout", api.UserLogout)
 		}
 	}
@@ -48,8 +49,6 @@ func dispatchRouterLogin(router *gin.Engine) {
 func dispatchRouterBlog(router *gin.Engine) {
 	groups := router.Group("/api/v1")
 	{
-		//博客创建
-		groups.POST("blogs", api.CreateBlog)
 		//博客详情
 		groups.GET("blog/:id", api.ShowBlog)
 		//博客列表
@@ -58,6 +57,14 @@ func dispatchRouterBlog(router *gin.Engine) {
 		groups.PUT("blog/:id", api.UpdateBlog)
 		//博客删除
 		groups.DELETE("blog/:id", api.DeleteBlog)
+		auth := groups.Group("")
+		auth.Use(middleware.AuthRequired())
+		{
+			//博客创建
+			auth.POST("blogs", api.CreateBlog)
+			//博客列表
+			auth.GET("userblogs", api.ListUserBlog)
+		}
 	}
 }
 

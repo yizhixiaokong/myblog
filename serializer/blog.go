@@ -5,6 +5,7 @@ import "myblog/model"
 // Blog 博客序列化器
 type Blog struct {
 	ID        uint   `json:"id"`
+	Author    string `json:"author"`
 	Title     string `json:"title"`
 	Details   string `json:"details"`
 	CreatedAt int64  `json:"created_at"`
@@ -14,6 +15,7 @@ type Blog struct {
 func BuildBlog(item model.Blog) Blog {
 	return Blog{
 		ID:        item.ID,
+		Author:    item.Author,
 		Title:     item.Title,
 		Details:   item.Details,
 		CreatedAt: item.CreatedAt.Unix(),

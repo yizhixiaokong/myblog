@@ -8,5 +8,5 @@ func migration() {
 	DB.AutoMigrate(&Blog{})
 	DB.AutoMigrate(&Tag{})
 	DB.AutoMigrate(&BlogTag{})
-
+	DB.AutoMigrate(&UserBlog{})
 }

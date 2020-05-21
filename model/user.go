@@ -12,6 +12,7 @@ type User struct {
 	PasswordDigest string
 	Nickname       string
 	Status         string
+	Information    string `gorm:"size:1000"`
 	Avatar         string `gorm:"size:1000"`
 }
 

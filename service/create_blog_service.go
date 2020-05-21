@@ -3,6 +3,7 @@ package service
 import (
 	"myblog/model"
 	"myblog/serializer"
+	"myblog/util"
 )
 
 // CreateBlogService 创建博客服务
@@ -12,14 +13,24 @@ type CreateBlogService struct {
 }
 
 // Create 创建博客
-func (service *CreateBlogService) Create() serializer.Response {
+func (service *CreateBlogService) Create(user *model.User) serializer.Response {
 	blog := model.Blog{
 		Title:   service.Title,
+		Author:  user.Nickname,
 		Details: service.Details,
 	}
 
 	if err := model.DB.Create(&blog).Error; err != nil {
 		return serializer.ParamErr("博客创建失败", err)
 	}
+
+	userBlog := model.UserBlog{
+		UserID: util.ToInt(user.ID),
+		BlogID: util.ToInt(blog.ID),
+	}
+	if err := model.DB.Create(&userBlog).Error; err != nil {
+		return serializer.ParamErr("博客用户关联失败", err)
+	}
+
 	return serializer.BuildBlogResponse(blog)
 }
